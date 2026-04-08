@@ -13,10 +13,6 @@ venv/
 logs/
 *.log
 
-# Data & Models
-data/
-models/
-
 # Databases
 *.sqlite
 *.db
