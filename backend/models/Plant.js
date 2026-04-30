@@ -1,5 +1,5 @@
-// models/Plant.js
-// Mongoose schema for a plant record in the dataset.
+// // models/Plant.js
+// // Mongoose schema for a plant record in the dataset.
 
 const mongoose = require('mongoose')
 
@@ -85,6 +85,12 @@ const plantSchema = new mongoose.Schema(
       trim: true,
       default: '',
     },
+    // ── NEW: botanical image URL (Wikimedia Commons) ─────────────────────────
+    image_url: {
+      type: String,
+      trim: true,
+      default: '',
+    },
   },
   {
     timestamps: true,
@@ -93,15 +99,12 @@ const plantSchema = new mongoose.Schema(
   }
 )
 
-// ── Text index for search ───────────────────────────────────────────────────
 plantSchema.index({ plant_name: 'text', common_name: 'text', family: 'text' })
 
-// ── Virtual: display label ───────────────────────────────────────────────────
 plantSchema.virtual('displayName').get(function () {
   return this.common_name ? `${this.plant_name} (${this.common_name})` : this.plant_name
 })
 
-// ── Static: case-insensitive name lookup ─────────────────────────────────────
 plantSchema.statics.findByName = function (name) {
   return this.findOne({ plant_name: { $regex: new RegExp(`^${name}$`, 'i') } })
 }

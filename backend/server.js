@@ -20,6 +20,7 @@ const errorHandler   = require('./middleware/errorHandler')
 const plantRoutes      = require('./routes/plantRoutes')
 const predictionRoutes = require('./routes/predictionRoutes')
 const healthRoutes     = require('./routes/healthRoutes')
+const imageProxyRoute  = require('./routes/imageProxyRoute')
 
 // ── 2. Create Express app ─────────────────────────────────────────────────────
 const app = express()
@@ -62,6 +63,8 @@ app.use(`${API_PREFIX}/plants`, plantRoutes)            // GET  /api/plants
 app.use(`${API_PREFIX}`,        predictionRoutes)       // POST /api/predict
                                                         // GET  /api/history
                                                         // GET  /api/history/:id
+                                                        
+app.use(`${API_PREFIX}`,        imageProxyRoute) 
 
 // Root endpoint — quick API info
 app.get('/', (req, res) => {

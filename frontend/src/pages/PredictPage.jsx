@@ -151,17 +151,6 @@ export default function PredictPage() {
           )}
         </div>
 
-        {/* Tips */}
-        {/* <div className="mt-6 bg-forest-50 border border-forest-200 rounded-xl p-4">
-          <h3 className="font-semibold text-forest-800 text-sm mb-2 flex items-center gap-2">
-            💡 Tips for best results
-          </h3>
-          <ul className="text-forest-700 text-sm space-y-1 list-disc list-inside">
-            <li>Select plants from compatible climate zones for viable hybrids</li>
-            <li>Plants of the same genus tend to produce more stable hybrids</li>
-            <li>Check the climate and resistance badges after selection</li>
-          </ul>
-        </div> */}
       </div>
     </div>
   )

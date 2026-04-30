@@ -53,28 +53,6 @@ export default function HistoryPage() {
           </div>
         </div>
 
-        {/* Stats — backend sends plantA/plantB (strings) */}
-        {/* {!loading && !error && records.length > 0 && (
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-6">
-            {[
-              { label: 'Total',       value: records.length,                                              icon: '🧬' },
-              { label: 'Unique A',    value: new Set(records.map(r => r.plantA)).size,                   icon: '🌿' },
-              { label: 'Unique B',    value: new Set(records.map(r => r.plantB)).size,                   icon: '🌱' },
-              { label: 'This Month',  value: records.filter(r => {
-                  if (!r.createdAt) return false
-                  const d = new Date(r.createdAt), now = new Date()
-                  return d.getMonth() === now.getMonth() && d.getFullYear() === now.getFullYear()
-                }).length, icon: '📅' },
-            ].map(({ label, value, icon }) => (
-              <div key={label} className="card py-4 text-center">
-                <span className="text-2xl mb-1 block">{icon}</span>
-                <p className="font-display text-2xl font-bold text-forest-700">{value}</p>
-                <p className="text-xs text-sage-400 mt-0.5">{label}</p>
-              </div>
-            ))}
-          </div>
-        )} */}
-
         {/* Table */}
         <div className="card shadow-md">
           {loading  ? <Spinner text="Fetching prediction history…" size="lg" /> :

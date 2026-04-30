@@ -1,11 +1,5 @@
 import axios from 'axios'
 
-// ─── IMPORTANT ────────────────────────────────────────────────────────────────
-// In development the Vite proxy (vite.config.js) forwards /api/* → localhost:5000/*
-// so we MUST use '/api' as the base — NOT 'http://localhost:5000'.
-// Using the direct URL bypasses the proxy and hits the backend without the correct
-// path prefix, causing 404 errors.
-// ─────────────────────────────────────────────────────────────────────────────
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || '/api'
 
 const apiClient = axios.create({
@@ -27,14 +21,6 @@ apiClient.interceptors.response.use(
   }
 )
 
-// ─── API Functions ────────────────────────────────────────────────────────────
-// The backend wraps every response as { success: true, data: <payload> }.
-// These helpers unwrap that envelope so callers just get the payload directly.
-
-/**
- * GET /plants
- * Returns the array of plant objects directly.
- */
 export const fetchPlants = async () => {
   const response = await apiClient.get('/plants')
   // Backend shape: { success, count, total, data: Plant[] }
