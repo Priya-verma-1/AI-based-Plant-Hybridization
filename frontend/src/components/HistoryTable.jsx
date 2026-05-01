@@ -46,7 +46,8 @@ function HistoryTraitCard({ traitKey, value, description }) {
 }
 
 // ── Same proxy URL builder as ResultPage ──────────────────────────────────────
-const API_BASE = 'http://localhost:5000/api'
+// const API_BASE = 'http://localhost:5000/api'
+const API_BASE = import.meta.env.VITE_API_BASE_URL || '/api'
 
 function buildProxyUrl({ plant1Name, plant2Name, traits }) {
   const { height, leaf_shape, flower_color, climate, yield_level } = traits || {}
