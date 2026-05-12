@@ -88,8 +88,32 @@ app.use(notFound)
 
 // ── 8. Global error handler (must be LAST, 4-param signature required) ───────
 app.use(errorHandler)
+ 
+// ── 9. ML Keep-Alive Pinger ───────────────────────────────────────────────────
+const ML_API_URL    = process.env.ML_API_URL || 'http://localhost:8000'
+const PING_INTERVAL = 10 * 60 * 1000   // 10 minutes in milliseconds
+ 
+function startMLKeepAlive() {
+  // Only run in production (i.e. when actually deployed on Render)
+  if (process.env.NODE_ENV !== 'production') {
+    console.log('ℹ️  ML keep-alive pinger is OFF in development mode')
+    return
+  }
+ 
+  console.log(`🏓  ML keep-alive pinger started — pinging ${ML_API_URL}/health every 10 min`)
+ 
+  setInterval(async () => {
+    try {
+      const { data } = await axios.get(`${ML_API_URL}/health`, { timeout: 10000 })
+      console.log(`🏓  ML ping OK — status: ${data.status}, models_trained: ${data.models_trained}`)
+    } catch (err) {
+      // Non-fatal: just log. The ML service may be cold-starting; next ping will confirm.
+      console.warn(`⚠️  ML ping failed (will retry in 10 min): ${err.message}`)
+    }
+  }, PING_INTERVAL)
+}
 
-// ── 9. Connect DB and start server ───────────────────────────────────────────
+// ── 10. Connect DB and start server ───────────────────────────────────────────
 const PORT = parseInt(process.env.PORT || '5000', 10)
 
 const startServer = async () => {
@@ -104,6 +128,9 @@ const startServer = async () => {
     console.log(`🤖  ML API      : ${process.env.ML_API_URL || 'http://localhost:8000'}`)
     console.log('🌿  ─────────────────────────────────────────────')
     console.log('')
+
+    startMLKeepAlive()
+    
   })
 
   // Handle unhandled promise rejections (outside Express middleware chain)
